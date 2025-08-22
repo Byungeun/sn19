@@ -4,9 +4,11 @@
 fiber-post-ip --netuid 19 --subtensor.network finney --external_port 4001 --wallet.name testcold --wallet.hotkey testhot --external_ip 160.187.202.151
 
 # 마이너 실행
-pm2 start python3 --name miner -- \
-  /home/s35/nineteen/.venv/bin/uvicorn miner.server:app \
-  --host 0.0.0.0 --port 4001 --env-file .default.env --log-level debug
+pm2 start "python3" --name miner -- \
+  -m uvicorn miner.server:app \
+  --host 0.0.0.0 --port 4001 --log-level debug \
+  --env-file .default.env
+
 
 # 실행 명령어 
 docker run -d --runtime=nvidia --gpus all \
