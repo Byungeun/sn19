@@ -1,29 +1,18 @@
 # sn19
 
 # 실행 명령어 
-docker run -d --name llama3_2_3b \
-  --gpus all \
-  -e VLLM_LOGGING_LEVEL=DEBUG \
-  -v /home/s24-1/models/llama3-2-3b:/model \
+docker run -d --runtime=nvidia --gpus all \
+  -v ~/.cache/huggingface:/root/.cache/huggingface \
   -p 8000:8000 \
+  --ipc=host \
+  -e VLLM_ALLOW_LONG_MAX_MODEL_LEN=1 \
   vllm/vllm-openai:latest \
-  --model /model \
-  --tokenizer unsloth/Llama-3.2-3B-Instruct \
-  --served-model-name unsloth/Llama-3.2-3B-Instruct \
-  --max-model-len 2048 \
-  --gpu-memory-utilization 0.7
+  --model Qwen/QwQ-32B \
+  --served-model-name Qwen/QwQ-32B \
+  --max-model-len 131072 \
+  --gpu-memory-utilization 0.9 \
+  --dtype bfloat16
 
-docker run -d --name llama3_2_3b \
-  --gpus all \
-  -e VLLM_LOGGING_LEVEL=DEBUG \
-  -v /home/s24-2/models/llama3-2-3b:/model \
-  -p 8000:8000 \
-  vllm/vllm-openai:latest \
-  --model /model \
-  --tokenizer unsloth/Llama-3.2-3B-Instruct \
-  --served-model-name unsloth/Llama-3.2-3B-Instruct \
-  --max-model-len 2048 \
-  --gpu-memory-utilization 0.7
 
 
 # 테스트 명령어 
